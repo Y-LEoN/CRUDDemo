@@ -28,8 +28,6 @@ public class EmployeeServlet extends HttpServlet {
 
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 处理post请求乱码
-		//req.setCharacterEncoding("utf-8");
 		String cmd = req.getParameter("cmd");
 		cmd = cmd == null ? "" : cmd;
 		switch (cmd) {
@@ -78,7 +76,7 @@ public class EmployeeServlet extends HttpServlet {
 		// 调用业务层 保存或者修改数据
 		employeeService.saveOrUpdate(emp);
 		// 跳转页面
-		resp.sendRedirect("/employee");
+		resp.sendRedirect(req.getContextPath()+"/employee");
 
 	}
 
