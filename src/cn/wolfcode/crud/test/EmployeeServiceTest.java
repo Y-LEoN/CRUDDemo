@@ -1,10 +1,7 @@
 package cn.wolfcode.crud.test;
 
-import java.util.List;
-
 import org.junit.Test;
 
-import cn.wolfcode.crud.domain.Department;
 import cn.wolfcode.crud.domain.Employee;
 import cn.wolfcode.crud.service.IEmployeeService;
 import cn.wolfcode.crud.service.impl.EmployeeServiceImpl;
@@ -55,12 +52,6 @@ public class EmployeeServiceTest {
 	public void testSelectById() {
 		Employee emp = service.selectById(1L);
 		System.out.println(emp);
-	}
-
-	@Test
-	public void testSelectAll() {
-		List<Employee> list = service.selectAll();
-		list.forEach(System.out::println);
 	}
 
 }
