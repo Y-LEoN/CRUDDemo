@@ -1,12 +1,10 @@
-package cn.wolfcode.crud.mapper;
+package cn.wolfcode.crud.service;
 
 import java.util.List;
 
-import cn.wolfcode.crud.domain.Employee;
 import cn.wolfcode.crud.domain.Role;
-import cn.wolfcode.crud.query.QueryObject;
 
-public interface RoleMapper {
+public interface RoleService {
 	
 	List<Role> list();
 	
@@ -17,6 +15,8 @@ public interface RoleMapper {
 	void insert(Role role);
 	
 	Role getById(Long id);
+	
+	void saveOrUpdate(Role role);
 	
 
 }

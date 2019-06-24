@@ -17,10 +17,8 @@ public interface EmployeeMapper {
 
 	List<Employee> selectAll();
 
-	// 根据条件查询 总条数
 	int selectRowsByCondition(QueryObject qo);
 
-	// 根据条件查询对应的数据
 	List<Employee> selectDataByCondition(QueryObject qo);
 
 }

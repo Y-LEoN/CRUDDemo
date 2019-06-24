@@ -30,4 +30,8 @@
 		insert into role (name,sn) values(#{name}, #{sn})
 	</insert>
 	
+	<select id="getById" resultMap="BaseResultMap">
+		select id, name, sn from role where id = #{id}
+	</select>
+	
 </mapper>
