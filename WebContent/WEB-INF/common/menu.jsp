@@ -7,7 +7,7 @@
 		<ul class="in" id="strategy_detail">
             <li class="employee"><a href="${pageContext.request.contextPath}/employee">员工管理</a></li>
 			<li class="department"><a href="${pageContext.request.contextPath}/department">部门管理</a></li>
-			<li class=""><a href="#">研发中......</a></li>
+			<li class="permission"><a href="${pageContext.request.contextPath}/permission">权限管理</a></li>
 			<li class=""><a href="#">研发中......</a></li>
 			<li class=""><a href="#">研发中......</a></li>
 			<li class=""><a href="#">研发中......</a></li>

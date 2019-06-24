@@ -8,5 +8,19 @@
 		select id,name,sn
 		from department 
 	</select> 
-
+	<delete id="deleteById">
+		delete from department where id = #{id}
+	</delete>
+	<insert id="insert">
+		insert into department
+		(name,sn)
+		values(#{name},#{sn})
+	</insert>
+	<update id="updateById">
+		update department set
+		name = #{name},
+		sn = #{sn}
+		where
+		id = #{id}
+	</update>
 </mapper>

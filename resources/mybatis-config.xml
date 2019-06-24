@@ -23,6 +23,6 @@
   <mappers>
     <mapper resource="cn/wolfcode/crud/mapper/EmployeeMapper.xml"/>
     <mapper resource="cn/wolfcode/crud/mapper/DepartmentMapper.xml"/>
-  
+  	<mapper resource="cn/wolfcode/crud/mapper/PermissionMapper.xml"/>
   </mappers>
 </configuration>
