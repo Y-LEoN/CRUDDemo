@@ -17,9 +17,6 @@ public interface RoleMapper {
 	void insert(Role role);
 	
 	Role getById(Long id);
-
-	// 根据条件查询对应的数据
-//	List<Role> selectDataByCondition(QueryObject qo);
 	
 
 }
