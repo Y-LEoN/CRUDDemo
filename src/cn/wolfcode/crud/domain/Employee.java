@@ -1,10 +1,8 @@
 package cn.wolfcode.crud.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Setter @Getter @ToString
+@Data
 public class Employee {
 	
 	private Long id;
