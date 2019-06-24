@@ -22,7 +22,7 @@ public class RoleMapperTest {
 	@Test
 	public void testRoleDeleteById() {
 		RoleMapper mapper = MyBastisUtil.openSession().getMapper(RoleMapper.class);
-		mapper.deleteById(13);
+		mapper.deleteById(13L);
 	}
 	
 }
