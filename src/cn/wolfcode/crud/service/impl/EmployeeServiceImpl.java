@@ -6,6 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 
 import cn.wolfcode.crud.domain.Employee;
 import cn.wolfcode.crud.mapper.EmployeeMapper;
+import cn.wolfcode.crud.query.EmployeeQueryObject;
+import cn.wolfcode.crud.query.PageResult;
+import cn.wolfcode.crud.query.QueryObject;
 import cn.wolfcode.crud.service.IEmployeeService;
 import cn.wolfcode.crud.util.MyBastisUtil;
 
@@ -50,6 +53,19 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		List<Employee> list = employeeMapper.selectAll();
 		session.close();
 		return list;
+	}
+
+	@Override
+	public PageResult selectByCondition(QueryObject qo) {
+		SqlSession session = MyBastisUtil.openSession();
+		employeeMapper = session.getMapper(EmployeeMapper.class);
+		int rows = employeeMapper.selectRowsByCondition(qo);
+		if(rows == 0) {
+		   return new PageResult(qo.getPageSize());
+		} 
+		List<Employee> list =  employeeMapper.selectDataByCondition(qo);
+		 
+		return new PageResult(list, rows, qo.getPageSize(), qo.getCurrentPage());
 	}
 
 }
