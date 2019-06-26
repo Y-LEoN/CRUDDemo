@@ -8,6 +8,12 @@
 		select id,name,sn
 		from department 
 	</select> 
+	<select id="selectById" resultType="department">
+		select id,name,sn
+		from department 
+		where
+		id = #{id}
+	</select>
 	<delete id="deleteById">
 		delete from department where id = #{id}
 	</delete>

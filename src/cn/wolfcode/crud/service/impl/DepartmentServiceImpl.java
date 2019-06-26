@@ -12,6 +12,7 @@ import cn.wolfcode.crud.mapper.DepartmentMapper;
 import cn.wolfcode.crud.mapper.EmployeeMapper;
 import cn.wolfcode.crud.service.IDepartmentService;
 import cn.wolfcode.crud.util.MyBastisUtil;
+import cn.wolfcode.crud.util.StringUtil;
 import cn.wolfcode.crud.util.generateExcel;
 
 public class DepartmentServiceImpl implements IDepartmentService {
@@ -63,13 +64,22 @@ public class DepartmentServiceImpl implements IDepartmentService {
 			body1.add(templist);
 		}
 	    try (
-	    		OutputStream out = new FileOutputStream("d:/test.xls") // 输出目的地
+	    		OutputStream out = new FileOutputStream("d:/"+sheetName+".xls") // 输出目的地
 	    ) {
-	    	generateExcel.generateExcel("sheetName", header, body1, out);
+	    	generateExcel.generateExcel(sheetName, header, body1, out);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
 		
+	}
+
+	@Override
+	public Department selectById(Long id) {
+		SqlSession session = MyBastisUtil.openSession();
+		departmentMapper = session.getMapper(DepartmentMapper.class);
+		Department d = departmentMapper.selectById(id);
+		session.close();
+		return d;
 	}
 
 }

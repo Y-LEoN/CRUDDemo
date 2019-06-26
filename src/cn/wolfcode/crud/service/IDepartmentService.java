@@ -11,6 +11,8 @@ public interface IDepartmentService {
 	void deleteById(Long id);
 
 	void saveOrUpdate(Department dept);
+	
+	Department selectById(Long id);
 
 	void generateExc(String sheetName, List<String> header, List<Department> body);
 }

@@ -29,6 +29,7 @@
 				<div class="row"></div>
 				<!--高级查询--->
 				<a href="${pageContext.request.contextPath}/employee?cmd=input" class="btn btn-success">添加</a>
+				<a href="${pageContext.request.contextPath}/employee?cmd=generate" class="btn btn-success">导出数据</a>
 				<form id="searchForm" action="${pageContext.request.contextPath}/employee" method="post">
 					<input type="hidden" name="currentPage" id="currentPage">
 					<div>

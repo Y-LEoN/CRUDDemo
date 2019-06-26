@@ -1,6 +1,7 @@
 package cn.wolfcode.crud.web.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,13 +46,27 @@ public class DepartmentServlet extends HttpServlet {
 			saveOrUpdateService(req, resp);
 			break;
 		case "generate":
+			generateService(req, resp);
+			break;
 		default:
 			listService(req, resp);
 			break;
 		}
 
 	}
-    private void saveOrUpdateService(HttpServletRequest req, HttpServletResponse resp)
+    private void generateService(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    	List<Department> deptList = departmentService.selectAll();
+		List<String> header = new ArrayList<String>();
+		header.add("编号");
+		header.add("部门名称");
+		header.add("部门编号");
+		String name = "department";
+		departmentService.generateExc(name,header,deptList);
+		PrintWriter out = resp.getWriter();
+		out.write("<script language='javascript'>alert('导出成功,数据存放于d盘根目录中');  window.location ='./department'; </script>");
+		//resp.sendRedirect(req.getContextPath()+"/department");
+	}
+	private void saveOrUpdateService(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String name = req.getParameter("name");
 		String id = req.getParameter("id");
@@ -68,34 +83,16 @@ public class DepartmentServlet extends HttpServlet {
 		if (StringUtil.hasLength(id)) {
 			dept.setId(Long.parseLong(id));
 		}
-		// ����ҵ��� ��������޸�����
 		departmentService.saveOrUpdate(dept);
-		// ��תҳ��
 		resp.sendRedirect(req.getContextPath()+"/department");
 
 	}
-//
-//	private void listService_bak(HttpServletRequest req, HttpServletResponse resp)
-//			throws ServletException, IOException {
-//		System.out.println("come in");
-//		// ��ȡԱ����Ϣ
-//		List<Employee> list = employeeService.selectAll();
-//		// ��Ա����Ϣ����request�������
-//		req.setAttribute("list", list);
-//		// ��ת��list.jspҳ��
-//		req.getRequestDispatcher("/WEB-INF/employee/list.jsp").forward(req, resp);
-//	}
 
 	private void listService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		List<Department> deptList = departmentService.selectAll();
 		req.setAttribute("depts", deptList);
-		List<String> header = new ArrayList<String>();
-		header.add("编号");
-		header.add("部门名称");
-		header.add("部门编号");
-		String name = "department";
-		departmentService.generateExc(name,header,deptList);
+
 		req.getRequestDispatcher("/WEB-INF/department/list.jsp").forward(req, resp);
 	}
 
@@ -104,26 +101,17 @@ public class DepartmentServlet extends HttpServlet {
 		if (StringUtil.hasLength(id)) {
 			departmentService.deleteById(Long.valueOf(id));
 		}
-		// ��תlist.jsp
-		// ��תҳ��
 		resp.sendRedirect(req.getContextPath()+"/department");
 	}
 
 	private void inputService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// ��ȡ���еĲ�����Ϣ
-		List<Department> list = departmentService.selectAll();
-		// ��ȡ���ŵ�id
 		String id = req.getParameter("id");
-		System.out.println(id);
+		Department dept = null;
 		if (StringUtil.hasLength(id)) {
-			for(int i = 0;i<list.size();i++) {
-				if(id.equals(String.valueOf(list.get(i).getId()))) {
-					req.setAttribute("dept", list.get(i));
-					break;
-				}
-			}
-			
+			dept = departmentService.selectById(Long.parseLong(id));
 		}
+		req.setAttribute("dept", dept);
+
 		req.getRequestDispatcher("/WEB-INF/department/input.jsp").forward(req, resp);
 
 	}
