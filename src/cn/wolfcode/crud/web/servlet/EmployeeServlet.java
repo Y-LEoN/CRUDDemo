@@ -73,9 +73,7 @@ public class EmployeeServlet extends HttpServlet {
 			emp.setId(Long.valueOf(id));
 		}
 
-		// 调用业务层 保存或者修改数据
 		employeeService.saveOrUpdate(emp);
-		// 跳转页面
 		resp.sendRedirect(req.getContextPath()+"/employee");
 
 	}
@@ -83,11 +81,8 @@ public class EmployeeServlet extends HttpServlet {
 	private void listService_bak(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		System.out.println("come in");
-		// 获取员工信息
 		List<Employee> list = employeeService.selectAll();
-		// 把员工信息放入request域对象中
 		req.setAttribute("list", list);
-		// 跳转到list.jsp页面
 		req.getRequestDispatcher("/WEB-INF/employee/list.jsp").forward(req, resp);
 	}
 
@@ -105,18 +100,12 @@ public class EmployeeServlet extends HttpServlet {
 		if (StringUtil.hasLength(currentPage)) {
 			qo.setCurrentPage(Integer.valueOf(currentPage));
 		}
-        // 获取所有部门信息
 		List<Department> deptList = departmentService.selectAll();
-		// 把部门信息存入rquest
 		req.setAttribute("depts", deptList);
-		// 回显条件数据
 		req.setAttribute("qo", qo);
-		// 获取员工信息
 		PageResult result = employeeService.selectByCondition(qo);
 
-		// 把员工信息放入request域对象中
 		req.setAttribute("pageInfo", result);
-		// 跳转到list.jsp页面
 		req.getRequestDispatcher("/WEB-INF/employee/list.jsp").forward(req, resp);
 	}
 
@@ -125,23 +114,16 @@ public class EmployeeServlet extends HttpServlet {
 		if (hasLength(id)) {
 			employeeService.deleteById(Long.valueOf(id));
 		}
-		// 跳转list.jsp
-		// 跳转页面
 		resp.sendRedirect("/employee");
 	}
 
 	private void inputService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 获取所有的部门信息
 		List<Department> list = departmentService.selectAll();
-		// 把部门的信息存入到request对象中
 		req.setAttribute("depts", list);
-		// 获取员工的id
 		String id = req.getParameter("id");
 		System.out.println(id);
 		if (hasLength(id)) {
-			// 调用业务层获取员工信息
 			Employee employee = employeeService.selectById(Long.valueOf(id));
-			// 把员工信息存入request中
 			req.setAttribute("emp", employee);
 		}
 		req.getRequestDispatcher("/WEB-INF/employee/input.jsp").forward(req, resp);

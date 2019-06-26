@@ -1,6 +1,7 @@
 package cn.wolfcode.crud.web.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import cn.wolfcode.crud.domain.Department;
 import cn.wolfcode.crud.service.IDepartmentService;
 import cn.wolfcode.crud.service.impl.DepartmentServiceImpl;
 import cn.wolfcode.crud.util.StringUtil;
+import cn.wolfcode.crud.util.generateExcel;
 
 /**
  * Servlet implementation class DepartmentServlet
@@ -42,6 +44,7 @@ public class DepartmentServlet extends HttpServlet {
 		case "saveOrUpdate":
 			saveOrUpdateService(req, resp);
 			break;
+		case "generate":
 		default:
 			listService(req, resp);
 			break;
@@ -65,9 +68,9 @@ public class DepartmentServlet extends HttpServlet {
 		if (StringUtil.hasLength(id)) {
 			dept.setId(Long.parseLong(id));
 		}
-		// µ÷ÓÃÒµÎñ²ã ±£´æ»òÕßĞŞ¸ÄÊı¾İ
+		// ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½
 		departmentService.saveOrUpdate(dept);
-		// Ìø×ªÒ³Ãæ
+		// ï¿½ï¿½×ªÒ³ï¿½ï¿½
 		resp.sendRedirect(req.getContextPath()+"/department");
 
 	}
@@ -75,21 +78,24 @@ public class DepartmentServlet extends HttpServlet {
 //	private void listService_bak(HttpServletRequest req, HttpServletResponse resp)
 //			throws ServletException, IOException {
 //		System.out.println("come in");
-//		// »ñÈ¡Ô±¹¤ĞÅÏ¢
+//		// ï¿½ï¿½È¡Ô±ï¿½ï¿½ï¿½ï¿½Ï¢
 //		List<Employee> list = employeeService.selectAll();
-//		// °ÑÔ±¹¤ĞÅÏ¢·ÅÈërequestÓò¶ÔÏóÖĞ
+//		// ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½requestï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //		req.setAttribute("list", list);
-//		// Ìø×ªµ½list.jspÒ³Ãæ
+//		// ï¿½ï¿½×ªï¿½ï¿½list.jspÒ³ï¿½ï¿½
 //		req.getRequestDispatcher("/WEB-INF/employee/list.jsp").forward(req, resp);
 //	}
 
 	private void listService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        // »ñÈ¡ËùÓĞ²¿ÃÅĞÅÏ¢
 		List<Department> deptList = departmentService.selectAll();
-		// °Ñ²¿ÃÅĞÅÏ¢´æÈërquest
 		req.setAttribute("depts", deptList);
-		// Ìø×ªµ½list.jspÒ³Ãæ
+		List<String> header = new ArrayList<String>();
+		header.add("ç¼–å·");
+		header.add("éƒ¨é—¨åç§°");
+		header.add("éƒ¨é—¨ç¼–å·");
+		String name = "department";
+		departmentService.generateExc(name,header,deptList);
 		req.getRequestDispatcher("/WEB-INF/department/list.jsp").forward(req, resp);
 	}
 
@@ -98,15 +104,15 @@ public class DepartmentServlet extends HttpServlet {
 		if (StringUtil.hasLength(id)) {
 			departmentService.deleteById(Long.valueOf(id));
 		}
-		// Ìø×ªlist.jsp
-		// Ìø×ªÒ³Ãæ
+		// ï¿½ï¿½×ªlist.jsp
+		// ï¿½ï¿½×ªÒ³ï¿½ï¿½
 		resp.sendRedirect(req.getContextPath()+"/department");
 	}
 
 	private void inputService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// »ñÈ¡ËùÓĞµÄ²¿ÃÅĞÅÏ¢
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ĞµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		List<Department> list = departmentService.selectAll();
-		// »ñÈ¡²¿ÃÅµÄid
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½id
 		String id = req.getParameter("id");
 		System.out.println(id);
 		if (StringUtil.hasLength(id)) {
