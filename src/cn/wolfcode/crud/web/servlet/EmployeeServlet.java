@@ -1,6 +1,8 @@
 package cn.wolfcode.crud.web.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -40,11 +42,28 @@ public class EmployeeServlet extends HttpServlet {
 		case "saveOrUpdate":
 			saveOrUpdateService(req, resp);
 			break;
+		case "generate":
+			generateService(req, resp);
+			break;
 		default:
 			listService(req, resp);
 			break;
 		}
 
+	}
+
+	private void generateService(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		List<Employee> list = employeeService.selectAll();
+		List<String> header = new ArrayList<String>();
+		header.add("序号");
+		header.add("员工姓名");
+		header.add("员工邮箱");
+		header.add("员工年龄");
+		header.add("所属部门");
+		String name = "employee";
+		employeeService.generateExc(name,header,list);
+		PrintWriter out = resp.getWriter();
+		out.write("<script language='javascript'>alert('导出成功,数据存放于d盘根目录中');  window.location ='./employee'; </script>");
 	}
 
 	private void saveOrUpdateService(HttpServletRequest req, HttpServletResponse resp)
@@ -114,7 +133,7 @@ public class EmployeeServlet extends HttpServlet {
 		if (hasLength(id)) {
 			employeeService.deleteById(Long.valueOf(id));
 		}
-		resp.sendRedirect("/employee");
+		resp.sendRedirect(req.getContextPath()+"/employee");
 	}
 
 	private void inputService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
