@@ -19,6 +19,7 @@
 			<div class="col-sm-9">
 				<div class="row"></div>
 				<a href="${pageContext.request.contextPath}/permission" class="btn btn-success">∞重新加载</a>
+				<a href="${pageContext.request.contextPath}/permission?cmd=generate" class="btn btn-success">导出数据</a>
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>

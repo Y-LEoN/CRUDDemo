@@ -17,6 +17,8 @@ public interface RoleService {
 	Role getById(Long id);
 	
 	void saveOrUpdate(Role role);
+
+	void generateExc(String name, List<String> header, List<Role> list);
 	
 
 }

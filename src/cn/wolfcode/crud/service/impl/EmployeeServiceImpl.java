@@ -95,10 +95,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				templist.add("");
 			}
 			
-			System.out.println((i+1)+":"+templist.toString());
 			body1.add(templist);
 		}
-		System.out.println(2);
 	    try (
 	    		OutputStream out = new FileOutputStream("d:/"+name+".xls") // 输出目的地
 	    ) {

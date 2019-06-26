@@ -1,6 +1,8 @@
 package cn.wolfcode.crud.web.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.wolfcode.crud.domain.Department;
 import cn.wolfcode.crud.domain.Role;
 import cn.wolfcode.crud.service.RoleService;
 import cn.wolfcode.crud.service.impl.RoleServiceImpl;
@@ -36,14 +37,28 @@ public class RoleServlet extends HttpServlet {
 		case "saveOrUpdate":
 			saveOrUpdateService(req, resp);
 			break;
+		case "generate":
+			generateService(req, resp);
+			break;
 		default:
-			// Ä¬ÈÏÏÔÊ¾ËùÓĞÌõÊı
 			listService(req, resp);
 			break;
 		}
 
 	}
-    private void saveOrUpdateService(HttpServletRequest req, HttpServletResponse resp)
+    private void generateService(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    	List<Role> list = roleService.list();
+		List<String> header = new ArrayList<String>();
+		header.add("ç¼–å·");
+		header.add("è§’è‰²åç§°");
+		header.add("è§’è‰²ç¼–å·");
+		String name = "role";
+		roleService.generateExc(name,header,list);
+		PrintWriter out = resp.getWriter();
+		out.write("<script language='javascript'>alert('å¯¼å‡ºæˆåŠŸ,æ•°æ®å­˜æ”¾äºdç›˜æ ¹ç›®å½•ä¸­');  window.location ='./role'; </script>");
+		
+	}
+	private void saveOrUpdateService(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String name = req.getParameter("name");
 		String id = req.getParameter("id");
@@ -60,35 +75,33 @@ public class RoleServlet extends HttpServlet {
 		if (StringUtil.hasLength(id)) {
 			role.setId(Long.parseLong(id));
 		}
-		// µ÷ÓÃÒµÎñ²ã ±£´æ»òÕßĞŞ¸ÄÊı¾İ
 		roleService.saveOrUpdate(role);
-		// Ìø×ªÒ³Ãæ
 		resp.sendRedirect(req.getContextPath()+"/role");
 
 	}
 
 	private void listService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        // »ñÈ¡ËùÓĞ²¿ÃÅĞÅÏ¢
+        // ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ğ²ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		List<Role> roles = roleService.list();
-		// °Ñ²¿ÃÅĞÅÏ¢´æÈërquest
+		// ï¿½Ñ²ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½rquest
 		req.setAttribute("roles", roles);
-		// Ìø×ªµ½list.jspÒ³Ãæ
+		// ï¿½ï¿½×ªï¿½ï¿½list.jspÒ³ï¿½ï¿½
 		req.getRequestDispatcher("/WEB-INF/role/list.jsp").forward(req, resp);
 	}
 
-	//É¾³ı½ÇÉ«
+	//É¾ï¿½ï¿½ï¿½ï¿½É«
 	private void deleteService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String id = req.getParameter("id");
 		if (StringUtil.hasLength(id)) {
 			roleService.deleteById(Long.valueOf(id));
 		}
-		// Ìø×ªlist.jsp
-		// Ìø×ªÒ³Ãæ
+		// ï¿½ï¿½×ªlist.jsp
+		// ï¿½ï¿½×ªÒ³ï¿½ï¿½
 		resp.sendRedirect(req.getContextPath()+"/role");
 	}
 
-	// ĞŞ¸Ä½çÃæ»ØÏÔ
+	// ï¿½Ş¸Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private void inputService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String id = req.getParameter("id");
 		if (StringUtil.hasLength(id)) {

@@ -1,6 +1,8 @@
 package cn.wolfcode.crud.web.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.wolfcode.crud.domain.Employee;
 import cn.wolfcode.crud.domain.Permission;
 import cn.wolfcode.crud.service.IPermissionService;
 import cn.wolfcode.crud.service.impl.PermissionServiceImpl;
@@ -37,6 +40,9 @@ public class PermissionServlet extends HttpServlet {
   		case "delete":
   			deleteService(req, resp);
   			break;
+  		case "generate":
+			generateService(req, resp);
+			break;
   		default:
   			listService(req, resp);
   			break;
@@ -44,13 +50,24 @@ public class PermissionServlet extends HttpServlet {
 
   	}
 
-  	private void listService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-          // »ñÈ¡ËùÓĞÈ¨ÏŞĞÅÏ¢
+  	private void generateService(HttpServletRequest req, HttpServletResponse resp) throws IOException {
   		List<Permission> list = permissionService.selectAll();
-  		// °Ñ²¿ÃÅĞÅÏ¢´æÈërquest
+		List<String> header = new ArrayList<String>();
+		header.add("ç¼–å·");
+		header.add("æƒé™åç§°");
+		header.add("æƒé™è¡¨è¾¾å¼");
+
+		String name = "permission";
+		permissionService.generateExc(name,header,list);
+		PrintWriter out = resp.getWriter();
+		out.write("<script language='javascript'>alert('å¯¼å‡ºæˆåŠŸ,æ•°æ®å­˜æ”¾äºdç›˜æ ¹ç›®å½•ä¸­');  window.location ='./permission'; </script>");
+		
+	}
+
+	private void listService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+  		List<Permission> list = permissionService.selectAll();
   		req.setAttribute("perm", list);
-  		// Ìø×ªµ½list.jspÒ³Ãæ
   		req.getRequestDispatcher("/WEB-INF/permission/list.jsp").forward(req, resp);
   	}
 
@@ -59,7 +76,7 @@ public class PermissionServlet extends HttpServlet {
   		if (StringUtil.hasLength(id)) {
   			permissionService.deleteById(Long.valueOf(id));
   		}
-  		// Ìø×ªÒ³Ãæ
+  		// ï¿½ï¿½×ªÒ³ï¿½ï¿½
   		resp.sendRedirect(req.getContextPath()+"/permission");
   	}
 }
