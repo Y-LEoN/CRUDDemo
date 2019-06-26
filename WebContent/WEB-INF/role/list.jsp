@@ -30,7 +30,7 @@
 				<a href="${pageContext.request.contextPath}/role?cmd=input"
 					class="btn btn-success">添加</a>
 				<form id="searchForm"
-					action="${pageContext.request.contextPath}/department"
+					action="${pageContext.request.contextPath}/role"
 					method="post">
 					<input type="hidden" name="pageNum" id="currentPage">
 				</form>
