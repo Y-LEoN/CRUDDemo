@@ -78,16 +78,15 @@ public class DepartmentServlet extends HttpServlet {
 
 		int pageNum = 1;
 		String pageNumStr = req.getParameter("pageNum");
-		if(StringUtil.hasLength(pageNumStr)) {
+		if(StringUtil.hasLength(pageNumStr) && Integer.parseInt(pageNumStr)>0) {
 			pageNum = Integer.parseInt(pageNumStr);
 		}
-		Page<Object> startPage = PageHelper.startPage(1, 5);
+		Page<Object> startPage = PageHelper.startPage(pageNum, 5);
 		List<Department> deptList = departmentService.selectAll();
 		
 		int rows = (int)startPage.getTotal();
-		PageResult pageInfo = new PageResult(deptList, rows, 5, 1);
+		PageResult pageInfo = new PageResult(deptList, rows, 5, pageNum);
 		req.setAttribute("pageInfo", pageInfo);
-//		req.setAttribute("depts", deptList);
 		req.getRequestDispatcher("/WEB-INF/department/list.jsp").forward(req, resp);
 	}
 

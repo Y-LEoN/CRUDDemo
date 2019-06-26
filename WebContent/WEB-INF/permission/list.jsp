@@ -30,6 +30,7 @@
 				<form id="searchForm"
 					action="${pageContext.request.contextPath}/permission"
 					method="post">
+					<input type="hidden" name="pageNum" id="currentPage">
 					<table class="table table-striped table-hover">
 						<thead>
 							<tr>

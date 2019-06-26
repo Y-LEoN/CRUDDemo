@@ -51,14 +51,15 @@ public class PermissionServlet extends HttpServlet {
   	private void listService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int pageNum = 1;
 		String pageNumStr = req.getParameter("pageNum");
-		if(StringUtil.hasLength(pageNumStr)) {
+//		pageNum = (StringUtil.hasLength(pageNumStr) && Integer.parseInt(pageNumStr)>0) ? Integer.parseInt(pageNumStr) : 1;
+		if(StringUtil.hasLength(pageNumStr) && Integer.parseInt(pageNumStr)>0) {
 			pageNum = Integer.parseInt(pageNumStr);
 		}
-		Page<Object> startPage = PageHelper.startPage(1, 5);
+		Page<Object> startPage = PageHelper.startPage(pageNum, 5);
 		
   		List<Permission> roleList = permissionService.selectAll();
   		int rows = (int)startPage.getTotal();
-  		PageResult pageInfo = new PageResult(roleList, rows, 5, 1);
+  		PageResult pageInfo = new PageResult(roleList, rows, 5, pageNum);
   		req.setAttribute("pageInfo", pageInfo);
   		req.getRequestDispatcher("/WEB-INF/permission/list.jsp").forward(req, resp);
   	}
