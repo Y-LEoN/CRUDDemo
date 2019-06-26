@@ -9,7 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+
 import cn.wolfcode.crud.domain.Permission;
+import cn.wolfcode.crud.query.PageResult;
 import cn.wolfcode.crud.service.IPermissionService;
 import cn.wolfcode.crud.service.impl.PermissionServiceImpl;
 import cn.wolfcode.crud.util.StringUtil;
@@ -45,12 +49,17 @@ public class PermissionServlet extends HttpServlet {
   	}
 
   	private void listService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-          // 获取所有权限信息
-  		List<Permission> list = permissionService.selectAll();
-  		// 把部门信息存入rquest
-  		req.setAttribute("perm", list);
-  		// 跳转到list.jsp页面
+		int pageNum = 1;
+		String pageNumStr = req.getParameter("pageNum");
+		if(StringUtil.hasLength(pageNumStr)) {
+			pageNum = Integer.parseInt(pageNumStr);
+		}
+		Page<Object> startPage = PageHelper.startPage(1, 5);
+		
+  		List<Permission> roleList = permissionService.selectAll();
+  		int rows = (int)startPage.getTotal();
+  		PageResult pageInfo = new PageResult(roleList, rows, 5, 1);
+  		req.setAttribute("pageInfo", pageInfo);
   		req.getRequestDispatcher("/WEB-INF/permission/list.jsp").forward(req, resp);
   	}
 
@@ -59,7 +68,6 @@ public class PermissionServlet extends HttpServlet {
   		if (StringUtil.hasLength(id)) {
   			permissionService.deleteById(Long.valueOf(id));
   		}
-  		// 跳转页面
   		resp.sendRedirect(req.getContextPath()+"/permission");
   	}
 }

@@ -73,9 +73,9 @@ public class EmployeeServlet extends HttpServlet {
 			emp.setId(Long.valueOf(id));
 		}
 
-		// µ÷ÓÃÒµÎñ²ã ±£´æ»òÕßĞŞ¸ÄÊı¾İ
+		// ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½
 		employeeService.saveOrUpdate(emp);
-		// Ìø×ªÒ³Ãæ
+		// ï¿½ï¿½×ªÒ³ï¿½ï¿½
 		resp.sendRedirect(req.getContextPath()+"/employee");
 
 	}
@@ -83,11 +83,11 @@ public class EmployeeServlet extends HttpServlet {
 	private void listService_bak(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		System.out.println("come in");
-		// »ñÈ¡Ô±¹¤ĞÅÏ¢
+		// ï¿½ï¿½È¡Ô±ï¿½ï¿½ï¿½ï¿½Ï¢
 		List<Employee> list = employeeService.selectAll();
-		// °ÑÔ±¹¤ĞÅÏ¢·ÅÈërequestÓò¶ÔÏóÖĞ
+		// ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½requestï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		req.setAttribute("list", list);
-		// Ìø×ªµ½list.jspÒ³Ãæ
+		// ï¿½ï¿½×ªï¿½ï¿½list.jspÒ³ï¿½ï¿½
 		req.getRequestDispatcher("/WEB-INF/employee/list.jsp").forward(req, resp);
 	}
 
@@ -105,18 +105,12 @@ public class EmployeeServlet extends HttpServlet {
 		if (StringUtil.hasLength(currentPage)) {
 			qo.setCurrentPage(Integer.valueOf(currentPage));
 		}
-        // »ñÈ¡ËùÓĞ²¿ÃÅĞÅÏ¢
 		List<Department> deptList = departmentService.selectAll();
-		// °Ñ²¿ÃÅĞÅÏ¢´æÈërquest
 		req.setAttribute("depts", deptList);
-		// »ØÏÔÌõ¼şÊı¾İ
 		req.setAttribute("qo", qo);
-		// »ñÈ¡Ô±¹¤ĞÅÏ¢
 		PageResult result = employeeService.selectByCondition(qo);
 
-		// °ÑÔ±¹¤ĞÅÏ¢·ÅÈërequestÓò¶ÔÏóÖĞ
 		req.setAttribute("pageInfo", result);
-		// Ìø×ªµ½list.jspÒ³Ãæ
 		req.getRequestDispatcher("/WEB-INF/employee/list.jsp").forward(req, resp);
 	}
 
@@ -125,23 +119,23 @@ public class EmployeeServlet extends HttpServlet {
 		if (hasLength(id)) {
 			employeeService.deleteById(Long.valueOf(id));
 		}
-		// Ìø×ªlist.jsp
-		// Ìø×ªÒ³Ãæ
+		// ï¿½ï¿½×ªlist.jsp
+		// ï¿½ï¿½×ªÒ³ï¿½ï¿½
 		resp.sendRedirect("/employee");
 	}
 
 	private void inputService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// »ñÈ¡ËùÓĞµÄ²¿ÃÅĞÅÏ¢
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ĞµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		List<Department> list = departmentService.selectAll();
-		// °Ñ²¿ÃÅµÄĞÅÏ¢´æÈëµ½request¶ÔÏóÖĞ
+		// ï¿½Ñ²ï¿½ï¿½Åµï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ëµ½requestï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		req.setAttribute("depts", list);
-		// »ñÈ¡Ô±¹¤µÄid
+		// ï¿½ï¿½È¡Ô±ï¿½ï¿½ï¿½ï¿½id
 		String id = req.getParameter("id");
 		System.out.println(id);
 		if (hasLength(id)) {
-			// µ÷ÓÃÒµÎñ²ã»ñÈ¡Ô±¹¤ĞÅÏ¢
+			// ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½È¡Ô±ï¿½ï¿½ï¿½ï¿½Ï¢
 			Employee employee = employeeService.selectById(Long.valueOf(id));
-			// °ÑÔ±¹¤ĞÅÏ¢´æÈërequestÖĞ
+			// ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½requestï¿½ï¿½
 			req.setAttribute("emp", employee);
 		}
 		req.getRequestDispatcher("/WEB-INF/employee/input.jsp").forward(req, resp);

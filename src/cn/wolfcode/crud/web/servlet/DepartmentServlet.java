@@ -9,7 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+
 import cn.wolfcode.crud.domain.Department;
+import cn.wolfcode.crud.query.PageResult;
 import cn.wolfcode.crud.service.IDepartmentService;
 import cn.wolfcode.crud.service.impl.DepartmentServiceImpl;
 import cn.wolfcode.crud.util.StringUtil;
@@ -65,31 +69,25 @@ public class DepartmentServlet extends HttpServlet {
 		if (StringUtil.hasLength(id)) {
 			dept.setId(Long.parseLong(id));
 		}
-		// 调用业务层 保存或者修改数据
 		departmentService.saveOrUpdate(dept);
-		// 跳转页面
 		resp.sendRedirect(req.getContextPath()+"/department");
 
 	}
-//
-//	private void listService_bak(HttpServletRequest req, HttpServletResponse resp)
-//			throws ServletException, IOException {
-//		System.out.println("come in");
-//		// 获取员工信息
-//		List<Employee> list = employeeService.selectAll();
-//		// 把员工信息放入request域对象中
-//		req.setAttribute("list", list);
-//		// 跳转到list.jsp页面
-//		req.getRequestDispatcher("/WEB-INF/employee/list.jsp").forward(req, resp);
-//	}
 
 	private void listService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        // 获取所有部门信息
+		int pageNum = 1;
+		String pageNumStr = req.getParameter("pageNum");
+		if(StringUtil.hasLength(pageNumStr)) {
+			pageNum = Integer.parseInt(pageNumStr);
+		}
+		Page<Object> startPage = PageHelper.startPage(1, 5);
 		List<Department> deptList = departmentService.selectAll();
-		// 把部门信息存入rquest
-		req.setAttribute("depts", deptList);
-		// 跳转到list.jsp页面
+		
+		int rows = (int)startPage.getTotal();
+		PageResult pageInfo = new PageResult(deptList, rows, 5, 1);
+		req.setAttribute("pageInfo", pageInfo);
+//		req.setAttribute("depts", deptList);
 		req.getRequestDispatcher("/WEB-INF/department/list.jsp").forward(req, resp);
 	}
 
@@ -98,15 +96,11 @@ public class DepartmentServlet extends HttpServlet {
 		if (StringUtil.hasLength(id)) {
 			departmentService.deleteById(Long.valueOf(id));
 		}
-		// 跳转list.jsp
-		// 跳转页面
 		resp.sendRedirect(req.getContextPath()+"/department");
 	}
 
 	private void inputService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 获取所有的部门信息
 		List<Department> list = departmentService.selectAll();
-		// 获取部门的id
 		String id = req.getParameter("id");
 		System.out.println(id);
 		if (StringUtil.hasLength(id)) {
