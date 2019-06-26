@@ -124,7 +124,7 @@ public class EmployeeServlet extends HttpServlet {
 		if (hasLength(id)) {
 			employeeService.deleteById(Long.valueOf(id));
 		}
-		resp.sendRedirect("/employee");
+		resp.sendRedirect(req.getContextPath()+"/employee");
 	}
 
 	private void inputService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

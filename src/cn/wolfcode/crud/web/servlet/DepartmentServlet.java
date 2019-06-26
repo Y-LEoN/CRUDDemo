@@ -48,6 +48,9 @@ public class DepartmentServlet extends HttpServlet {
 		case "saveOrUpdate":
 			saveOrUpdateService(req, resp);
 			break;
+		case "generate":
+				generateService(req, resp);
+				break;
 		default:
 			listService(req, resp);
 			break;

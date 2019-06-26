@@ -19,7 +19,7 @@
 			</div>
 			<div class="col-sm-9">
 				<div class="row col-sm-10">
-					<form class="form-horizontal" action="/employee?cmd=saveOrUpdate"
+					<form class="form-horizontal" action="${pageContext.request.contextPath}/employee?cmd=saveOrUpdate"
 						method="post" id="editForm">
 						<input type="hidden" value="${emp.id}" name="id">
 						<div class="form-group">
