@@ -9,5 +9,6 @@ public interface IPermissionService {
 	void deleteById(Long id);
 	
 	List<Permission> selectAll();
-	
+
+	void generateExc(String name, List<String> header, List<Permission> list);
 }

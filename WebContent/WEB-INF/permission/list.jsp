@@ -27,6 +27,7 @@
 				<div class="row"></div>
 				<a href="${pageContext.request.contextPath}/permission"
 					class="btn btn-success">∞重新加载</a>
+					<a href="${pageContext.request.contextPath}/permission?cmd=generate" class="btn btn-success">导出数据</a>
 				<form id="searchForm"
 					action="${pageContext.request.contextPath}/permission"
 					method="post">

@@ -1,6 +1,8 @@
 package cn.wolfcode.crud.web.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -41,6 +43,9 @@ public class PermissionServlet extends HttpServlet {
   		case "delete":
   			deleteService(req, resp);
   			break;
+  		case "generate":
+			generateService(req, resp);
+			break;
   		default:
   			listService(req, resp);
   			break;
@@ -48,7 +53,21 @@ public class PermissionServlet extends HttpServlet {
 
   	}
 
-  	private void listService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  	private void generateService(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  		List<Permission> list = permissionService.selectAll();
+		List<String> header = new ArrayList<String>();
+		header.add("编号");
+		header.add("权限名称");
+		header.add("权限表达式");
+
+		String name = "permission";
+		permissionService.generateExc(name,header,list);
+		PrintWriter out = resp.getWriter();
+		out.write("<script language='javascript'>alert('导出成功,数据存放于d盘根目录中');  window.location ='./permission'; </script>");
+		
+	}
+
+	private void listService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int pageNum = 1;
 		String pageNumStr = req.getParameter("pageNum");
 //		pageNum = (StringUtil.hasLength(pageNumStr) && Integer.parseInt(pageNumStr)>0) ? Integer.parseInt(pageNumStr) : 1;

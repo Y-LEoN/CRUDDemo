@@ -1,6 +1,8 @@
 package cn.wolfcode.crud.web.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -40,14 +42,28 @@ public class RoleServlet extends HttpServlet {
 		case "saveOrUpdate":
 			saveOrUpdateService(req, resp);
 			break;
+		case "generate":
+			generateService(req, resp);
+			break;
 		default:
-			// Ĭ����ʾ��������
 			listService(req, resp);
 			break;
 		}
 
 	}
-    private void saveOrUpdateService(HttpServletRequest req, HttpServletResponse resp)
+    private void generateService(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    	List<Role> list = roleService.list();
+		List<String> header = new ArrayList<String>();
+		header.add("编号");
+		header.add("角色名称");
+		header.add("角色编号");
+		String name = "role";
+		roleService.generateExc(name,header,list);
+		PrintWriter out = resp.getWriter();
+		out.write("<script language='javascript'>alert('导出成功,数据存放于d盘根目录中');  window.location ='./role'; </script>");
+		
+	}
+	private void saveOrUpdateService(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String name = req.getParameter("name");
 		String id = req.getParameter("id");
